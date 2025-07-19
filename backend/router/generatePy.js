@@ -1,23 +1,22 @@
-const fs = require('fs')
-const path = require('path');
-const {v4:uuid} = require('uuid')
+const express = require("express");
+const router = express.Router();
+const { generatefile } = require("./generatefile"); // fixed name
+const { executepy } = require("./executepy");
 
-const dirCodes = path.join(__dirname,"../python_runner");
-console.log('Python files are storing at:',dirCodes)
-if(!fs.existsSync(dirCodes)){
-    fs.mkdirSync(dirCodes,{recursive:true});
-}
+router.post("/runpy", async (req, res) => {
+  const { code } = req.body;
 
-const generatefile = async (format,content)=>{
+  if (!code) {
+    return res.status(400).json({ error: "Code is required" });
+  }
 
-    const jobId = uuid(); 
-    const filename = `${jobId}.${format}`
-    const filepath = path.join(dirCodes,filename);
+  try {
+    const filepath = await generatefile("py", code);
+    const output = await executepy(filepath);
+    res.status(200).json({ output });
+  } catch (err) {
+    res.status(500).json({ error: err.toString() });
+  }
+});
 
-    await fs.writeFileSync(filepath,content);
-    return filepath;
-
-}
-module.exports = {
-    generatefile,
-}
+module.exports = router;

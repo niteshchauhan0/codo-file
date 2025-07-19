@@ -44,14 +44,6 @@ function Homepage() {
           uniId={"uni"}
         />
         <CodingPage
-          title="Dart Compiler"
-          path='/editor/java'
-          con="Run Dart"
-          info={<><mark>Dart</mark> is a Programming Language <mark>Developed by Google</mark> and it is use with <mark>Flutter </mark>to Create Mobile and Web Application .Embrace your <mark>Knowledge</mark> with <mark>Dart Code Editor</mark></>}
-          image={CodJava}
-          // poss={{'flexDirection':'row'}}
-        />
-        <CodingPage
           title="Real-Time Website Editor"
           path="/editor/html"
           con="Try Web Editor"
@@ -83,15 +75,6 @@ function Homepage() {
           con="Get Started"
           // poss={{'flexDirection':'row-reverse'}}
           uniId={"uni"}
-        />
-        <CodingPage
-          title="What We Earned?"
-          path="https://drive.google.com/file/d/1wynjrv73vmnbzIsonh8dfJy_SweR3sq1/view?usp=sharing"
-          // info={<>A <mark>Programmer</mark> has no Limitation towards <mark>Learning and Improving</mark> the World Through its Skills and Knowledge</>}
-          info={<>Achieved <mark><u>First</u></mark> position in <mark>Website Competition</mark> held in <mark>L.N College - Borivali(East).</mark> </>}
-          con="View Certificate"
-          image={MoreCod}
-          // poss={{'flexDirection':'row'}}
         />
         <Feedback/>
         <Footer/>

@@ -1,30 +1,37 @@
-const cors = require('cors')
+const cors = require('cors');
 const dotenv = require('dotenv');
-dotenv.config({path:'./config.env'});
-const mongoose = require('mongoose');
+dotenv.config({ path: './config.env' });
+
 const express = require('express');
-const app = new express();
-const PORT = process.env.PORT ;
+const app = express();
+const PORT = process.env.PORT || 8000;
 
-require('./db/conn'); 
+// Middlewares
+app.use(cors());
+app.use(express.json());
 
-app.use(cors()); 
-app.use(express.json()); 
-app.use(require('./router/auth'));
+// Route to run Python code
+app.use('/api', require('./router/generatePy')); // Updated route for Python execution
 
-const consoleURL = (req,res,next)=>{
-    console.log(`User at URL : localhost:${PORT}${req.url}`);
-    next();
-}
+// Logger Middleware
+const consoleURL = (req, res, next) => {
+  console.log(`User at URL : localhost:${PORT}${req.url}`);
+  next();
+};
 
-app.get('/',consoleURL,(req,res)=>{
-    // res.cookie("test","faizan");
-    res.send('Hello world');
-})
-app.get('*',consoleURL,(req,res)=>{
-    res.send(`<center><h1>404 </h1><h3>The Page you are Looking for is Not Found</h3></center>`)
-})
+// Default Route
+app.get('/', consoleURL, (req, res) => {
+  res.send('Hello world');
+});
 
-app.listen(PORT,()=>{
-    console.log(`localhost:${PORT}`)
-})
+// Fallback 404 Route
+app.get('*', consoleURL, (req, res) => {
+  res
+    .status(404)
+    .send(`<center><h1>404</h1><h3>The Page you are Looking for is Not Found</h3></center>`);
+});
+
+// Start Server
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
